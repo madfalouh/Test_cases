@@ -1,17 +1,16 @@
 import unittest
-from mockito import when
 
-def calculate_bmi(height_feet, height_inches, weight , bmi_value=None) :
+
+def calculate_bmi(height_feet, height_inches, weight ) :
     if height_feet < 0 or height_inches < 0 or weight < 0:
         raise ValueError("Height and weight must be non-negative")
     total_height_inches = height_feet * 12 + height_inches
     weight_kg = weight * 0.45
     height_cm = total_height_inches * 0.025
-   
-    if bmi_value is not None:
-        bmi = bmi_value
-    else:
-        bmi = weight_kg / (height_cm ** 2)
+    
+    bmi = weight_kg / (height_cm ** 2)
+    bmi = round(bmi,1)
+
     if bmi < 18.5:
         category = "Underweight"
     elif bmi < 25:
@@ -20,65 +19,126 @@ def calculate_bmi(height_feet, height_inches, weight , bmi_value=None) :
         category = "Overweight"
     else:
         category = "Obese"
-    return round(bmi, 1), category
+   
+    return bmi, category
 
 class TestCalculateBMI(unittest.TestCase):
     
-#part 1 
+#Domain 1 
+
+
+
+      #bmi 18.5
     def test_normal_weight(self):
         
-        bmi, category = calculate_bmi(5, 6, 150 , bmi_value=18.5)
+        bmi, category = calculate_bmi(5 , 2 , 98.75)
         
         self.assertEqual(category, "Normal weight")
 
 
-
+  #bmi 18.4
     def test_underweight(self):
-        bmi, category = calculate_bmi(5, 2, 90 ,  bmi_value=18.4)
-   
+        bmi, category = calculate_bmi(5, 2, 98.22 )
+        self.assertEqual(category, "Underweight")
+        
+  #bmi 17
+    def test_underweight(self):
+        bmi, category = calculate_bmi(5, 2, 90.75 )
+        
         self.assertEqual(category, "Underweight")
 
 
-#part 2 
+#Domain 2 
 
 
-
+  #bmi 25
     def test_overweight(self):
-        bmi, category = calculate_bmi(6, 0, 200 ,  bmi_value=25)
-     
+        bmi, category = calculate_bmi(6, 0, 180)
+        
         self.assertEqual(category, "Overweight")
 
-
-
+  #bmi 18.5
     def test_normalweight(self):
-        bmi, category = calculate_bmi(6, 0, 200,  bmi_value=24.9)
+        bmi, category = calculate_bmi(5 , 2 , 98.75)
+     
+        self.assertEqual(category, "Normal weight")
+        
+  #bmi 20
+    def test_normalweight(self):
+        bmi, category = calculate_bmi(6, 0, 144)
+     
+        self.assertEqual(category, "Normal weight")
+        
+
+  #bmi 24.9
+    def test_normalweight(self):
+        bmi, category = calculate_bmi(6, 0, 179.26)
      
         self.assertEqual(category, "Normal weight")
 
 
+  #bmi 18.4
+    def test_normalweight(self):
+        bmi, category = calculate_bmi(5, 2, 98.22)
+     
+        self.assertEqual(category, "Under weight")
 
-#part 3
 
+
+#DOmain 3 
+
+  #bmi 25
     def test_overweight(self):
-        bmi, category = calculate_bmi(6, 0, 200 ,  bmi_value=25)
+        bmi, category = calculate_bmi(6, 0, 180 )
      
         self.assertEqual(category, "Overweight")
 
 
+  #bmi 27
+    def test_overweight(self):
+        bmi, category = calculate_bmi(5, 9, 181.11 )
+     
+        self.assertEqual(category, "Overweight")
+        
+
+  #bmi 29.9
+    def test_normalweight(self):
+        bmi, category = calculate_bmi(6, 0, 215.26)
+     
+        self.assertEqual(category, "Overweight")
+
+  #bmi 30
     def test_obese(self):
-        bmi, category = calculate_bmi(5, 10, 250 ,  bmi_value=30.1)
+        bmi, category = calculate_bmi(5, 10, 204.15 )
         self.assertEqual(category, "Obese")
 
-
-# interior 
-
-
-    def test_overweight(self):
-        bmi, category = calculate_bmi(6, 0, 200 ,  bmi_value=27)
+  #bmi 24.9
+    def test_normalweight(self):
+        bmi, category = calculate_bmi(6, 0, 179.26)
      
+        self.assertEqual(category, "Normal weight")
+        
+
+
+# Domain 4  
+
+  #bmi 30
+    def test_overweight(self):
+        bmi, category = calculate_bmi(5, 10, 204.15 )
+     
+        self.assertEqual(category, "Obese")
+        
+
+  #bmi 32
+    def test_overweight(self):
+        bmi, category = calculate_bmi(6, 0, 230.4 )
+        self.assertEqual(category, "Obese")
+
+  #bmi 29.9
+    def test_normalweight(self):
+        bmi, category = calculate_bmi(6, 0, 215.26)
+
         self.assertEqual(category, "Overweight")
-
-
 
   
 
