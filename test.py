@@ -2,8 +2,12 @@ import unittest
 
 
 def calculate_bmi(height_feet, height_inches, weight ) :
+    if  type(height_feet) is str or type(height_inches)  is str  or type(weight) is str :
+        raise ValueError("Height and weight must be valid") 
     if height_feet < 0 or height_inches < 0 or weight < 0:
         raise ValueError("Height and weight must be non-negative")
+    if height_feet ==0  and height_inches == 0 or weight == 0:
+        raise ValueError("Height and weight must be valid")
     total_height_inches = height_feet * 12 + height_inches
     weight_kg = weight * 0.45
     height_cm = total_height_inches * 0.025
@@ -145,7 +149,10 @@ class TestCalculateBMI(unittest.TestCase):
     def test_negative_input_17(self):
         with self.assertRaises(ValueError):
             calculate_bmi(5, -2, 150)
-            
+
+    def test_invalid_input_18(self):
+        with self.assertRaises(ValueError):
+            calculate_bmi(0, 0, 0)
 
 
 
